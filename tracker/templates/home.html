@@ -1,0 +1,70 @@
+{% extends "header.html" %}
+
+{% block content %}
+
+<!-- Pulling in the plotly CDN -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+
+<div class="container section bg-light pb-4">
+    <div class="row align-items-center pb-2">
+        <div class="col-6">
+            <div class="py-3">
+                <h1 class="display-5">Hi {{current_user.first_name }},
+                {{bug_qty}} task(s) to go! </h1>
+            </div>
+            <div class="btn-group">
+                <a class="btn btn-outline-secondary" href="{{ url_for('user_index', user_id=current_user.id) }}">Your bugs</a>
+                <a class="btn btn-outline-secondary" href="{{ url_for('user_comments', user_id=current_user.id) }}">Your comments</a>
+                <a class="btn btn-outline-secondary" href="{{ url_for('user_profile', user_id=current_user.id) }}">Your profile</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row pt-2">
+        <div class="col">
+            <h2 class="display-6">Your projects at a glance...</h2>
+        </div>
+    </div>
+    <div class="row align-items-center py-4">
+        <div class="col-6 px-3">
+            <h3>Urgency</h3>
+                <div class="chart" id="urgent_plot_div">
+                    <!-- Javascript for urgent_plot_div -->
+                    <script type="text/javascript">
+                        var graphs = {{ plot_data['urgent']|safe }};
+                        Plotly.plot('urgent_plot_div', graphs, {});
+                    </script>
+                </div>
+
+        </div>
+        <div class="col-6 px-3">
+            <h3>Status</h3>
+             <div class="chart" id="status_plot_div">
+                <!-- Javascript for status_plot_div -->
+                <script type="text/javascript">
+                    var graphs = {{ plot_data['status']|safe }};
+                    Plotly.plot('status_plot_div', graphs, {});
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-6 px-3">
+
+            <h3>Projects</h3>
+            <div class="chart" id="project_plot_div">
+                <!-- Javascript for project_plot_div -->
+                <script type="text/javascript">
+                    var graphs = {{ plot_data['project']|safe }};
+                    Plotly.plot('project_plot_div', graphs, {});
+                </script>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

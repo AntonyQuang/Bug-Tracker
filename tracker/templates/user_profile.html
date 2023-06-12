@@ -1,0 +1,101 @@
+{% extends "header.html" %}
+
+{% block content %}
+
+
+<! -- dl: Description List, dt: Description Title. dd: Description Data -->
+<div class="container card py-3 bg-light">
+  <div class="row">
+    <div class="col">
+      <h1>{{ user_details.username }}</h1>
+    </div>
+  </div>
+
+  <div>
+    <dl class="row">
+      <!-- Admin specific rows -->
+      {% if current_user.user_type == "Admin" %}
+      <dt class="col-sm-3">User ID</dt>
+      <dd class="col-sm-9">{{ user_details.id }}</dd>
+
+      <dt class="col-sm-3">User Type</dt>
+      <dd class="col-sm-9">{{ user_details.user_type }}</dd>
+
+      {% endif %}
+
+      <!-- General rows -->
+      <dt class="col-sm-3">First Name</dt>
+      <dd class="col-sm-9">{{ user_details.first_name }}</dd>
+
+
+      <dt class="col-sm-3">Surname</dt>
+      <dd class="col-sm-9">{{ user_details.surname }}</dd>
+
+
+      <dt class="col-sm-3">Email</dt>
+      <dd class="col-sm-9">{{ user_details.email }}</dd>
+
+
+      <dt class="col-sm-3">Join Date (YYYY-MM-DD)</dt>
+      <dd class="col-sm-9">{{ user_details.start_datetime.date() }}</dd>
+
+
+    </dl>
+      <!--- Buttons for Bugs and comments  -->
+      <div class="row">
+        <div class="col-sm-1">
+          <a href="{{ url_for('user_index', user_id = user_details.id) }}" class="btn btn-secondary">Bugs</a>
+        </div>
+        <div class="col-sm-1">
+          <a href="{{ url_for('user_comments', user_id = user_details.id) }}" class="btn btn-secondary">Comments</a>
+        </div>
+      </div>
+
+      <!-- Admin options -->
+      {% if current_user.user_type == "Admin" %}
+      <div class="row py-3">
+        <div class="col-sm-1">
+          <a href="{{ url_for('admin_edit_user', user_id = user_details.id) }}" class="btn btn-warning">Edit</a>
+        </div>
+        <div class="col-sm-3 ">
+          <a href="{{ url_for('admin_edit_password', user_id = user_details.id) }}" class="btn btn-warning">Change User's Password</a>
+        </div>
+          <!-- Button trigger modal for deleting -->
+        <div class="col-sm-1">
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#{{user_details.username}}staticBackdrop">
+            Delete
+          </button>
+        </div>
+        <div class="modal fade" id="{{user_details.username}}staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="{{user_details.username}}staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="{{user_details.username}}staticBackdropLabel">Delete {{user_details.username}}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                 <p>Are you sure you want to delete the user {{ user_details.username }}?</p>
+              </div>
+              <div class="modal-footer">
+                  <a href="{{ url_for('admin_delete_user', user_id=user_details.id) }}" class="btn btn-danger">Delete</a>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- User options -->
+      {% elif current_user.id == user_details.id %}
+      <div class="row py-3">
+        <div class="col-sm-5">
+          <a href="{{ url_for('user_edit_password', user_id=user_details.id) }}" class="btn btn-warning">Change Your Password</a>
+        </div>
+      </div>
+      {% endif %}
+
+  </div>
+
+</div>
+
+{% endblock %}

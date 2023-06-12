@@ -1,0 +1,41 @@
+{% extends "header.html" %}
+
+{% block content %}
+
+<div class="container-lg mx-auto my-5 w-50 border p-5 rounded bg-light">
+    <h1>Login</h1>
+    <form method="POST" action="{{ url_for('login') }}" >
+
+        {{ login_form.csrf_token }}
+
+        <div class="form-floating mb-3">
+            {{ login_form.email(class="form-control", id="floatingEmail", placeholder="example@email.com") }}
+            {{ login_form.email.label(for="floatingEmail") }}
+
+
+            {% for error in login_form.email.errors %}
+                <span style="color:red">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="form-floating mb-3">
+            {{ login_form.password(class="form-control", id="floatingPassword", placeholder="password") }}
+            {{ login_form.password.label(for="floatingPassword") }}
+
+
+            {% for error in login_form.email.errors %}
+                <span style="color:red">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="mb-3 row">
+            <div class="col">
+            {{ login_form.submit(class="btn btn-primary") }}
+            </div>
+            <div class="col text-end">
+                <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}

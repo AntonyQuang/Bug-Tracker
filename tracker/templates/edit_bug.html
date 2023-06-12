@@ -1,0 +1,87 @@
+{% extends "header.html" %}
+
+{% block content %}
+
+<div class="container-lg mx-auto my-5 w-50 border p-5 rounded bg-light">
+
+    <div class="row">
+        <div class="col text-center  mb-3">
+            <h1>Edit Bug {{ bug.id }}'s details</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form method="POST" action="{{ url_for('edit_bug', bug_id=bug.id) }}" class="w-75 mx-auto">
+                {{ bug_edit_form.csrf_token }}
+                <!-- Bug -->
+                <div>
+                    {{ bug_edit_form.bug.label(class="form-label") }}
+                </div>
+                <div class="mb-3">
+                    {{ bug_edit_form.bug(value=bug.bug, class="form-control") }}
+                </div>
+                <!-- Description -->
+                <div>
+                    {{ bug_edit_form.description.label(class="form-label") }}
+                </div>
+                <div class="mb-3">
+                    {{ bug_edit_form.description(class="form-control") }}
+                </div>
+                <div class="mb-3">
+
+                </div>
+                <!-- Task -->
+                <div>
+                    {{ bug_edit_form.task.label(class="form-label") }}
+                </div>
+                <div class="mb-3">
+                    {{ bug_edit_form.task(value=bug.task, class="form-control") }}
+                </div>
+                <!-- Project -->
+                <div>
+                    {{ bug_edit_form.project.label(class="form-label") }}
+                </div>
+                <div class="mb-3">
+                    {{ bug_edit_form.project(value=bug.project, class="form-control") }}
+                </div>
+                <!-- User -->
+                <div>
+                    {{ bug_edit_form.user.label(class="form-label") }}
+                </div>
+                <div class="mb-3">
+                    {{ bug_edit_form.user(class="form-select") }}
+                </div>
+                <!-- Urgency -->
+                <div>
+                    {{ bug_edit_form.urgency.label(class="form-label") }}
+                </div>
+                <div class="mb-3">
+                    {{ bug_edit_form.urgency(class="form-select") }}
+                </div>
+                <!-- Status -->
+                <div>
+                    {{ bug_edit_form.status.label(class="form-label") }}
+                </div>
+                <div class="mb-3">
+                    {{ bug_edit_form.status(class="form-select") }}
+                </div>
+                <!-- Update button -->
+                <div class="mb-3 row">
+                    <div class="col">
+                     {{ bug_edit_form.submit(class="btn btn-primary") }}
+                    </div>
+                    <!-- Cancel button -->
+                    <div class="col text-end">
+                        <a class="btn btn-danger" href="{{ url_for('bug_profile', bug_id=bug.id) }}">Cancel</a>
+                    </div>
+                </div>
+            </form>
+            {{ ckeditor.load(pkg_type="standard") }}
+            {{ ckeditor.config(name='description')}}
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "header.html" %}
+
+{% block content %}
+
+<div class="container-lg mx-auto my-5 w-50 border p-5 rounded bg-light">
+    <div class="row">
+        <div class="col text-center  mb-3">
+            <h1>Edit {{ existing_details.username }}'s details</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form method="POST" action="{{ url_for('admin_edit_user', user_id=existing_details.id) }}" class="w-75 mx-auto">
+                {{ update_form.csrf_token }}
+                <!-- Username -->
+                <div>
+                    {{ update_form.username.label(class="form-label") }}
+                </div>
+                <div class="mb-3">
+                    {{ update_form.username(value=existing_details.username, class="form-control") }}
+                </div>
+                <!-- Email -->
+                <div>
+                    {{ update_form.email.label(class="form-label") }}
+                </div>
+                <div class="mb-3">
+                    {{ update_form.email(value=existing_details.email, class="form-control") }}
+                </div>
+                <!-- First Name -->
+                <div>
+                    {{ update_form.first_name.label(class="form-label") }}
+                </div>
+                <div class="mb-3">
+                    {{ update_form.first_name(value=existing_details.first_name, class="form-control") }}
+                </div>
+                <!-- Surname -->
+                <div>
+                    {{ update_form.surname.label(class="form-label") }}
+                </div>
+                <div class="mb-3">
+                    {{ update_form.surname(value=existing_details.surname, class="form-control") }}
+                </div>
+                <!-- User type -->
+                <div>
+                    {{ update_form.user_type.label(class="form-label") }}
+                </div>
+                <div class="mb-3">
+                    {{ update_form.user_type(value=existing_details.user_type, class="form-select") }}
+                </div>
+
+                <div class="mb-3 row">
+                    <!-- Update button -->
+                    <div class="col">
+                     {{ update_form.update(class="btn btn-primary") }}
+                    </div>
+                    <!-- Edit Password button -->
+                    <div class="col">
+                        <a class="btn btn-warning" href="{{ url_for('admin_edit_password', user_id=existing_details.id) }}">Change Password</a>
+                    </div>
+                    <!-- Cancel button -->
+                    <div class="col text-end">
+                        <a class="btn btn-danger" href="{{ url_for('users') }}">Cancel</a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+{% endblock %}

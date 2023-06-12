@@ -1,0 +1,73 @@
+{% extends "header.html" %}
+
+{% block content %}
+
+
+<!-- Importing Datatables and jquery libraries -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+
+<script>$(document).ready( function () {
+    $('#comment-table').DataTable();
+} );</script>
+
+
+
+<div class="container section py-3 bg-light">
+
+    <table class="table" id="comment-table">
+        <thead>
+            <tr>
+                <th>Project</th>
+                <th>Bug</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Comment Preview</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for comment in comments %}
+                <tr>
+                    <td>{{ comment.parent_bug.project }}</td>
+                    <td><a class="a-text" href="{{ url_for('bug_profile', bug_id=comment.parent_bug.id) }}">{{ comment.parent_bug.bug }}</a></td>
+                    <td>{{ comment.update_datetime.date() }}</td>
+                    <td>{{ comment.update_datetime.time().strftime("%H:%M") }}</td>
+                    <td><i>{{ comment.text[0:50]|safe }}</i></td>
+                    <!-- Button trigger modal -->
+                    <td>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#comment-{{comment.id}}">
+                          Open
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+    </table>
+</div>
+
+
+{% for comment in comments %}
+<!-- Modal -->
+<div class="modal fade" id="comment-{{comment.id}}" tabindex="-1" aria-labelledby="comment-{{comment.id}}-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="comment-{{comment.id}}-label">Comment</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          {{comment.text|safe}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <a class="btn btn-primary" href="{{ url_for('bug_profile', bug_id=comment.parent_bug_id) }}">Go to bug</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+{{ ckeditor.load() }}
+{{ ckeditor.config(name='text') }}
+{% endblock %}

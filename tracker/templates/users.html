@@ -1,0 +1,76 @@
+{% extends "header.html" %}
+
+{% block content %}
+
+
+
+<!-- Importing "Datatables" and jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+
+
+<script>$(document).ready( function () {
+    $('#user-table').DataTable();
+} );</script>
+
+
+<div class="container section bg-light p-3">
+    <table class="table" id="user-table">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>User Type</th>
+                <th>Join date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td><a href="{{ url_for('user_profile', user_id=user.id) }}" class="a-text">{{ user.username }}</a></td>
+                    <td>{{ user.first_name }} {{ user.surname }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.user_type }}</td>
+                    <td>{{ user.start_datetime.date() }}</td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="User buttons">
+                        <a href="{{ url_for('admin_edit_user', user_id=user.id) }}" class="btn btn-primary btn-sm">Edit</a>
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#{{user.username}}staticBackdrop">
+                          Delete
+                        </button>
+
+                        <!-- Modal -->
+                            <div class="modal fade" id="{{user.username}}staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="{{user.username}}staticBackdropLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="{{user.username}}staticBackdropLabel">Delete {{user.username}}</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                     <p>Are you sure you want to delete the user {{ user.username }}?</p>
+                                  </div>
+                                  <div class="modal-footer">
+                                      <a href="{{ url_for('admin_delete_user', user_id=user.id) }}" class="btn btn-danger">Delete</a>
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,35 @@
+body {
+background-color: #E1EDE2;
+padding-top: 100px;
+}
+
+
+.section {
+border-radius: 10px;
+}
+
+.a-text {
+    color: #E1EDE2;
+}
+
+.navbar-css {
+    margin-bottom: 300px;
+}
+
+.a-text:link {
+ text-decoration: none;
+ color: #54808A;
+ transition: 0.3s;}
+
+
+.a-text:visited {
+ text-decoration: none;
+ color: #54808A;}
+
+.a-text:hover {
+ text-decoration: none;
+ color: #609FAD;}
+
+.a-text:active {
+ text-decoration: none;
+ color: #609FAD;}

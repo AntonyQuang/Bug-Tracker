@@ -1,0 +1,47 @@
+{% extends "header.html" %}
+
+
+{% block content %}
+
+<!-- Loading in jquery a datatables -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+
+<script>$(document).ready( function () {
+    $('#bugTable').DataTable();
+} );</script>
+
+<div class="container section py-3 bg-light" >
+    <table class="table" id="bugTable">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Bug</th>
+                <th>Project</th>
+                <th>Task</th>
+                <th>Status</th>
+                <th>Urgency</th>
+                <th>Last updated</th>
+                <th>User</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bug in bugs %}
+                <tr>
+                    <td>{{ bug.id }}</td>
+                    <td><a class="a-text" href="{{ url_for('bug_profile', bug_id=bug.id) }}">{{ bug.bug }}</a></td>
+                    <td>{{ bug.project }}</td>
+                    <td>{{ bug.task }}</td>
+                    <td>{{ bug.status }}</td>
+                    <td>{{ bug.urgency }}</td>
+                    <td>{{ bug.update_datetime.date() }}</td>
+                    <td><a class="a-text" href="{{url_for('user_profile', user_id=bug.parent_user_id)}}">{{ bug.parent_user.username }}</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}
