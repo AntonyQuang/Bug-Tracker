@@ -6,16 +6,16 @@
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
 
-<div class="container p-3 bg-light">
-    <div class="row align-items-center py-5">
-        <div class="col-6">
+<div class="container section p-3 bg-light mb-5">
+    <div class="row align-items-center">
+        <div class="col-12">
             <div class="">
-                <h1 class="display-6">Hi {{current_user.first_name }}</h1>
+                <h2>Hi {{current_user.first_name }}, here is a breakdown of our bugs.</h2>
             </div>
         </div>
     </div>
 
-    <div class="row align-items-center">
+    <div class="row align-items-center py-4">
         <div class="col-6 px-3">
                         <h3>Urgency</h3>
             <div class="chart" id="urgent_plot_div">

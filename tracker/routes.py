@@ -88,6 +88,14 @@ def user_index(user_id):
 def register():
     register_form = UserForm()
     if register_form.validate_on_submit():
+        username_check = User.query.filter_by(username=register_form.username.data).first()
+        if username_check:
+            flash("Username has already been taken", category="warning")
+            return redirect(url_for("register"))
+        email_check = User.query.filter_by(email=register_form.email.data.lower()).first()
+        if email_check:
+            flash("Email is already associated with another account", category="warning")
+            return redirect(url_for("register"))
         hash_password = bcrypt.generate_password_hash(register_form.password.data)
         user = User(username=register_form.username.data,
                     first_name=register_form.first_name.data.title(),
@@ -111,6 +119,9 @@ def register():
 # Log user in
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        flash("You are already logged in", category="warning")
+        return redirect(url_for("home"))
     login_form = LoginForm()
     if login_form.validate_on_submit():
         user = User.query.filter_by(email=login_form.email.data.lower()).first()
@@ -362,8 +373,11 @@ def bug_profile(bug_id):
 @login_required
 def edit_bug(bug_id):
     bug = Bug.query.get_or_404(bug_id)
+    all_users = User.query.all()
+    user_list = [user.username for user in all_users]
     bug_edit_form = BugForm()
     bug_edit_form.description.default = bug.description
+    bug_edit_form.user.choices = user_list
     bug_edit_form.user.default = bug.parent_user.username
     bug_edit_form.status.default = bug.status
     bug_edit_form.urgency.default = bug.urgency

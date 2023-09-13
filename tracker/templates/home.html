@@ -6,7 +6,9 @@
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
 
-<div class="container section bg-light pb-4">
+<div class="container section bg-light pb-4 mb-5">
+    {% if bug_qty %}
+
     <div class="row align-items-center pb-2">
         <div class="col-6">
             <div class="py-3">
@@ -64,7 +66,21 @@
             </div>
         </div>
     </div>
-
+    {% else %}
+        <div class="row align-items-center pb-2">
+        <div class="col-6">
+            <div class="py-3">
+                <h1 class="display-5">Hi {{current_user.first_name }},
+                no tasks for now! </h1>
+            </div>
+            <div class="btn-group">
+                <a class="btn btn-outline-secondary" href="{{ url_for('user_index', user_id=current_user.id) }}">Your bugs</a>
+                <a class="btn btn-outline-secondary" href="{{ url_for('user_comments', user_id=current_user.id) }}">Your comments</a>
+                <a class="btn btn-outline-secondary" href="{{ url_for('user_profile', user_id=current_user.id) }}">Your profile</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
 
 {% endblock %}
